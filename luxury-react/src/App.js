@@ -11,50 +11,51 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            manager: "NOT SET"
+            manager: "NOT SET",
+            myitems:[],
+            to: ""
         };
         this.getMyAddress = this.getMyAddress.bind(this);
-        this.getMyAddress2 = this.getMyAddress2.bind(this);
+        this.getMyItems = this.getMyItems.bind(this);
     }
 
 
     // will be executed after page gets loaded
     async componentDidMount(){
-        // solidity calls are async call, add await in front of call to make sync
-        const manager = await luxury.methods.manager().call();
+      // solidity calls are async call, add await in front of call to make sync
+      const manager = await luxury.methods.manager().call();
+      const accounts = await web3.eth.getAccounts();
 
-        //update this.state.manager so render will be executed
-        this.setState({manager: manager});
+      //update this.state.manager so render will be executed
+      this.setState({manager: manager,accounts: accounts});
     }
-    //onclick = async event =>{
-        //event.preventDefault();
-
-    //}
 
     async getMyAddress(){
-        const accounts = await web3.eth.getAccounts();
-
-        //this.setState({ message: 'Waiting on transaction success...' });
-
-        var ads = await luxury.methods.getMyAddress().call({from: accounts[0]});
-    
-        this.setState({ message1: "Your address is " + ads});
-
+      var ads = await luxury.methods.getMyAddress().call({from: this.state.accounts[0]});
+      // set message for the return values to be show in the page..
+      // this is the best way i can do it now, but i think there will be other solutions
+      this.setState({ message1: "Your address is " + ads});
     }
 
-    async getMyAddress2(){
-        const accounts = await web3.eth.getAccounts();
-
-        //this.setState({ message: 'Waiting on transaction success...' });
-
-        var ads = await luxury.methods.getMyAddress().call({from: accounts[0]});
-    
-        this.setState({ message2: "Your address is " });
-
+    async getMyItems(){
+      var myitems = await luxury.methods.getMyItems().call({from: this.state.accounts[0]});
+      this.setState({myitems:myitems});
     }
 
-    
-    
+    setStoreInfo = async event => {
+      //console.log("the new post is -> " + this.state.value);
+      const accounts = await web3.eth.getAccounts();
+      //this.setState({status: "Updating..."});
+      await luxury.methods.setStoreInfo(this.state.to).send({from: accounts[0]});
+      this.setState({message2:"success!" });
+      console.log("completed ");
+  
+      // update the posts
+      //let posts = this.state.posts;
+      //posts.push(this.state.value);
+      //this.setState({posts: posts}); 
+      
+    };
     // This function will be called when any variable in this state...??
     // And the return of this function will be rendered in to HTML and ??
 
@@ -66,10 +67,28 @@ class App extends Component {
             <div className="App">
                 <h1>Luxury Contract</h1>
                 <p>This contract is managed by {this.state.manager}</p>
-                <button onClick={this.getMyAddress}>Get my Address</button>
-                <h1>{this.state.message1}</h1>
-                <button onClick={this.getMyAddress2}>Get my Address2</button>
-                <h1>{this.state.message2}</h1>
+                
+                <button onClick={this.getMyAddress}>Get my address</button>
+                <p>{this.state.message1}</p>
+                
+                <button onClick={this.getMyItems}>Get my items</button>
+                <ul>
+                  {this.state.myitems.map((value, index) => {
+                    return <li key={index}> {value}</li>
+                  })}
+                </ul>
+                <h2>Set Store Info:</h2>
+                <form onSubmit={this.setStoreInfo}>
+                  <div>
+                    <input
+                      value = {this.state.to}
+                      onChange={event => this.setState({to:event.target.value})}
+                    />
+                  </div>
+                  <input type="submit" value="Submit"/>
+                </form>
+                <h2>Transfer Ownership</h2>
+
             </div>
         );
     }
@@ -77,6 +96,4 @@ class App extends Component {
 
 export default App;
 
-// 1. show variable, basicly call view
-// 2. set variable, basicly call transact
-// 3.
+//React textbox: https://material-ui.com/zh/components/text-fields/

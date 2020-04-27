@@ -1,6 +1,6 @@
 import web3 from './web3';
 
-const address = '0x9718913aA1b03d944cfA0F361c561CA02E027F00';
+const address = "0xE6EE124Ef7E988Fa33ea1F04B7c9a9aB35B87324";
 
 const abi = [
 	{
@@ -44,7 +44,12 @@ const abi = [
 			}
 		],
 		"name": "setStoreInfo",
-		"outputs": [],
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
