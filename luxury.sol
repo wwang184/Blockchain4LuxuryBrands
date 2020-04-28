@@ -5,7 +5,7 @@ pragma solidity ^0.4.17;
 
 
 contract Luxury {
-    
+
     address public manager;
     uint[] items;
 
@@ -25,7 +25,7 @@ contract Luxury {
 
     mapping(uint => Item) itemArr;
     mapping(address => Info) infoArr;
-    
+
     constructor() public {
         manager = msg.sender;
     }
@@ -35,15 +35,15 @@ contract Luxury {
     // ---------------- Transaction: Setting up stores, customers and issue new item ---------------- //
     function setStoreInfo(address to) public{
         require (msg.sender == manager);
-        
+
         Info storage store = infoArr[to];
         store.isRetailer = true;
         infoArr[to] = store;
     }
-    
+
     function setCustomerInfo(address to) public{
         require (msg.sender == manager);
-        
+
         Info storage me = infoArr[to];
         me.isCustomer = true;
         infoArr[to] = me;
@@ -52,11 +52,11 @@ contract Luxury {
     function createItem(address to, uint _code) public {
         // Only manager(the company) can register a new item
         require (msg.sender == manager);
-        
+
         //Should check if the code already exists, or use a reliable method to generate the code
         Item memory newItem;
         Info storage store = infoArr[to];
-        
+
         // When the item is created, the receipient must be a store but not a customer.
         if (store.isRetailer == false){
             return;
@@ -66,30 +66,30 @@ contract Luxury {
         //add new item code to the code list
         items.push(_code);
     }
-    
+
     // ---------------- View: Checking status ---------------- //
-    
+
     function getItemOwner(uint _code) public view returns (address){
         // Only manager has the access
         require(msg.sender == manager);
         return itemArr[_code].curr_owner;
     }
-    
-    
+
+
 // ----------------- Functions for stores and customers ----------------- //    
-    
+
     // ---------------- Transaction: transfer ownership ---------------- //
-    
+
     function transferOwnership(address to, uint _code) public returns (bool){
         // seller should be the one to call this function
         // check if seller owns this item
         // bool flag = false;
-        
+
         // Info storage seller = infoArr[msg.sender];
         // Info storage buyer = infoArr[to];
-        
+
         Item storage item = itemArr[_code];
-        
+
         if (item.curr_owner == msg.sender){
             // the current owner of this item should change
             // the item id should be removed from seller
@@ -97,20 +97,20 @@ contract Luxury {
             // this transaction details should be added to the item records
             item.curr_owner = to;
             itemArr[_code]= item;
-            
+
             return true;
         }
         return false;
-        
-        
+
+
     }
-        
+
     // ---------------- View: Checking status ---------------- //
-    
+
     function getMyAddress() public view returns(address){
         return msg.sender;
     }
-    
+
     function getMyItems() public view returns(uint[]){
         uint counter = 0;
         uint max = items.length;
@@ -125,9 +125,9 @@ contract Luxury {
         }
         return myitems;
     }
-    
+
     // function getItemInfo()
-    
+
     function verifyItems(uint _code) public view returns (bool){
         Item storage item = itemArr[_code];
         if (item.curr_owner == msg.sender){
@@ -137,23 +137,31 @@ contract Luxury {
     }
 
 // ----------------- Functions for programmers to debug ----------------- //    
-    
+
     function getcodes() public view returns(uint[]){
         return items;
     }
-    
+
     function getcodeslen() public view returns(uint){
         return items.length;
     }
-
     
+    function amIStore() public view returns (bool){
+        Info storage me = infoArr[msg.sender];
+        if (me.isRetailer == true){
+            return true;
+        }
+        else return false;
+    }
+
+
     // **functions should be constructed later:**
     //  getMyTransactionHistory
     //  transferOwnership, should include records to record transfer reason: buyfromstore, buyfromcustomer, return, stolen?, repurchasefromcustomer... 
     //  reportStolen
     //  **also incorporate repair shops and secondhand platforms**
     //  repairItem
-    
 
-    
+
+
 }
