@@ -99,20 +99,6 @@ Owners sell item to second hand platform, and buyers buy item from second hand p
 
 ~~When transfer/repairment happens, participants should have the abiliti to verify if the description of the item correspond with the item itself.~~ 
 
-- During a transaction, verification will be done automaticlly.
-- If any owner want to post information on the website, the related item should be verified first.
-
-| First Participant              | Second Participant            | Event                                                        | Real life situation                                      |
-| ------------------------------ | ----------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Manager                        | Store                         | Set up store information                                     | A new store opens                                        |
-| Manager                        | Store                         | Register new item for store                                  | An item is produced, and transported to a store for sale |
-| Store                          | Customer                      | Store sells an item to a customer. Several things could be automaticlly verified: 1.This store is a authorized store of this brand. 2. This item is authentic. | Customer goes to a store and buys an item.               |
-| Customer                       | -                             | Customer check his/her account to make sure item received    | Customer goes to a store and buys an item.               |
-| Customer as second hand seller | Customer as second hand buyer | Seller transfer ownership to buyer. Buyer check account to make sure item received. | Face to face second hand item transaction                |
-| Customer as second hand seller | Second hand shop              | Sell transfer ownership to a second hand shop (vintage shop). vintage shop check account to make sure item received. | Face to face second hand item transaction                |
-|                                |                               |                                                              |                                                          |
-|                                |                               |                                                              |                                                          |
-|                                |                               |                                                              |                                                          |
 
 #### For company side:
 
@@ -139,3 +125,19 @@ The known business issues include AURA developed by LVMH with Microsoft and bloc
 
 According to this trend, our blockchain system is for fashion & luxury brands to reduce the risk of counterfeit and grey market by using a unique code attached with each item to track the products for life-long. Managers, stores and customers can also check the participants address and item infromation. What is left out in design is repairment history, stolen report and transport information.
 
+## Use case
+
+- During a transaction, verification will be done automaticlly.
+- If any owner want to post information on the website, the related item should be verified first.
+
+| First Participant              | Second Participant            | Event                                                        | Real life situation                                      |
+| ------------------------------ | ----------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| Manager                        | Store                         | Set up store information                                     | A new store opens                                        |
+| Manager                        | Store                         | Register new item for store                                  | An item is produced, and transported to a store for sale |
+| Store                          | Customer                      | Store sells an item to a customer. Several things could be automaticlly verified: 1.This store is a authorized store of this brand. 2. This item is authentic. | Customer goes to a store and buys an item.               |
+| Customer                       | -                             | Customer check his/her account to make sure item received    | Customer goes to a store and buys an item.               |
+| Customer as second hand seller | Customer as second hand buyer | Seller transfer ownership to buyer. Buyer check account to make sure item received. | Face to face second hand item transaction                |
+| Customer as second hand seller | Second hand shop              | Sell transfer ownership to a second hand shop (vintage shop). vintage shop check account to make sure item received. | Face to face second hand item transaction                |
+|                                |                               |                                                              |                                                          |
+|                                |                               |                                                              |                                                          |
+|                                |                               |                                                              |                                                          |
