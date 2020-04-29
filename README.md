@@ -127,4 +127,15 @@ Tbc
 
 
 
+# Project Report
+
+## Introduction
+
+### Background
+
+With the rapid growth of resale sites could take up a larger share of the market in the future, counterfeit merchandise is becoming a more serious problem in luxury industry. Consumers are always looking for deals, but resale market is filled out with fake goods. It remains to be seen whether the technology will sufficiently fend off counterfeit merchandise, but tapping into Ethereum technology could be a pathway toward other brands protecting their products and perhaps attracting consumers through transparency and customer perks, too.
+
+The known business issues include AURA developed by LVMH with Microsoft and blockchain software company ConsenSys. Consumers can trace the lifecycle of its products, and find specific product care instructions, after-sales and warranty services. The platform could also be used to safeguard creative intellectual property and curb advertising fraud.
+
+According to this trend, our blockchain system is for fashion & luxury brands to reduce the risk of counterfeit and grey market by using a unique code attached with each item to track the products for life-long. Managers, stores and customers can also check the participants address and item infromation. What is left out in design is repairment history, stolen report and transport information.
 
