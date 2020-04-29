@@ -82,9 +82,27 @@ class App extends Component {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
       await luxury.methods.createItem(this.state.to, this.state.code).send({from: accounts[0]});
-      this.setState({message2:"success!" });
+      this.setState({message3:"success!" });
       console.log("Create Item Completed ");      
     };
+
+    getItemsOwner = async event =>{
+      event.preventDefault();
+      const accounts = await web3.eth.getAccounts();
+      await luxury.methods.getItemOwner(this.state.code).send({from: accounts[0]})
+      var ads = await luxury.methods.getItemOwner(this.state.code).call({from: accounts[0]});
+      console.log("The owner is -> " + this.state.accounts);
+      this.setState({ message4: "Owner's address is " + ads});
+    };
+    transferOwnership = async event =>{
+      event.preventDefault();
+      const accounts = await web3.eth.getAccounts();
+      await luxury.methods.transferOwnership(this.state.to,this.state.code).send({from: accounts[0]})
+      this.setState({message5:"success!" });
+      console.log("Transfer Completed "); 
+    };
+
+
     // This function will be called when any variable in this state...??
     // And the return of this function will be rendered in to HTML and ??
 
@@ -120,6 +138,21 @@ class App extends Component {
                   <input type="submit" value="Submit"/>
                 </form>
                 <h2>Transfer Ownership</h2>
+                <form onSubmit={this.transferOwnership}>
+                  <div>
+                    <input
+                      name= "to"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      name="code"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <input type="submit" value="Submit"/>
+                </form>
                 <h2>Create Item:</h2>
                 <form onSubmit={this.createItem}>
                   <div>
@@ -127,12 +160,25 @@ class App extends Component {
                       name="to"
                       onChange={this.handleChange}
                     />
+                  </div>
+                  <div>
                     <input
                       name="code"
                       onChange={this.handleChange}
                     />
                   </div>
                   <input type="submit" value="Submit"/>
+                </form>
+                <h2>Get Item's Owner:</h2>
+                <form onSubmit={this.getItemsOwner}>
+                  <div>
+                    <input
+                      name="code"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <input type="submit" value="Submit"/>
+                  <p>{this.state.message4}</p>
                 </form>
 
             </div>
@@ -141,5 +187,3 @@ class App extends Component {
 }
 
 export default App;
-
-//React textbox: https://material-ui.com/zh/components/text-fields/
