@@ -12,7 +12,14 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+#content{
+	text-align: center;
+	padding-top:25%;
+	color: white;
+}
+h2,p,h1{
+	color: white;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -27,7 +34,12 @@
 .App-link {
   color: #61dafb;
 }
-
+body{
+	background: url("https://images.unsplash.com/photo-1587613865763-4b8b0d19e8ab?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80");
+	background-size: cover;
+	background-position: center;
+	font-family: Lato;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +47,14 @@
   to {
     transform: rotate(360deg);
   }
+}
+.form-group{
+  width: 30%;
+  margin-left: 500px;  
+  color:white;
+}
+.b{
+  margin-top:10px ;
+  margin-bottom: 20px;
+  color:white;
 }
