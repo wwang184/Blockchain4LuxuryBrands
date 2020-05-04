@@ -1,10 +1,9 @@
-// https://www.jianshu.com/p/5da35f504aef
-// https://web3js.readthedocs.io/en/v1.2.0/web3-eth-contract.html
-
 import React, { Component } from 'react';
 import './App.css';
 import web3 from './web3';
 import luxury from './luxury';
+import HeaderComponent from './Header';
+import { Button, Navbar, Nav, NavItem, NavDropdown, MenuItem,Carousel,Form,Spinner } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -16,6 +15,10 @@ class App extends Component {
             to: "",
             code: 0,
             storeflag:"",
+            Itemflag:"",
+            defaultAccount: "NOT SET",
+            managerflag :false,
+            accounts:[],
         };
 
         window.ethereum.on('accountsChanged', (account) => {
@@ -33,9 +36,9 @@ class App extends Component {
     async componentDidMount(){
       const accounts = await window.ethereum.enable();
       // solidity calls are async call, add await in front of call to make sync
-      const manager = await luxury.methods.manager().call();
       //const accounts = await web3.eth.getAccounts().then(console.log);
-
+      const manager = await luxury.methods.manager().call();
+      console.log("componentDidMount called")
       //update this.state.manager so render will be executed
       this.setState({manager: manager, accounts: accounts});
     }
@@ -64,12 +67,6 @@ class App extends Component {
       // this is the best way i can do it now, but i think there will be other solutions
       this.setState({ message1: "Your address is " + ads});
     }
-
-    async getMyItems(){
-      var myitems = await luxury.methods.getMyItems().call({from: this.state.accounts[0]});
-      this.setState({myitems:myitems});
-    }
-
     setStoreInfo = async event => {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
@@ -77,7 +74,6 @@ class App extends Component {
       this.setState({message2:"success!" });
       console.log("Set Store Completed ");      
     };
-
     createItem = async event => {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
@@ -85,6 +81,30 @@ class App extends Component {
       this.setState({message3:"success!" });
       console.log("Create Item Completed ");      
     };
+
+
+    async getMyItems(){
+      var myitems = await luxury.methods.getMyItems().call({from: this.state.accounts[0]});
+      this.setState({myitems:myitems});
+    }
+    
+    
+    verifyItems = async event =>{
+      event.preventDefault();
+      const accounts = await web3.eth.getAccounts();
+      await luxury.methods.verifyItems(this.state.code).send({from: accounts[0]});
+      const adbs = await luxury.methods.verifyItems(this.state.code).call({from: this.state.accounts[0]});
+      if (adbs == true){
+        this.setState({Itemflag: "True"});
+      }
+      else {
+        this.setState({Itemflag: "False"});
+      }
+      console.log("The item is " + this.state.Itemflag);
+      this.setState({ message6: "The item is " + this.state.Itemflag});
+
+    };
+
 
     getItemsOwner = async event =>{
       event.preventDefault();
@@ -109,80 +129,154 @@ class App extends Component {
     render(){
         // you can see this line in the browser console
         console.log("manager is " + this.state.manager);
-
-        return (
+        console.log("render called");
+        console.log(this.state.accounts);
+        if (this.state.manager == "NOT SET"){
+          return (
+            <div className="App">Initiating</div>
+          );
+        }
+        else{
+          var managerflag = false;
+        if (this.state.manager.toLowerCase() == this.state.accounts[0].toLowerCase()){
+           managerflag = true;
+         }
+         console.log(managerflag);
+         if (managerflag == true){
+           return(
             <div className="App">
+                <HeaderComponent />
                 <h1>Luxury Contract</h1>
                 <p>This contract is managed by {this.state.manager}</p>
 
-                <button onClick={this.amIStore}>Am I store?</button>
+                <Button variant="dark" onClick={this.amIStore}>Am I store?</Button>{' '}
                 <p>{this.state.storeflag}</p>
                 
-                <button onClick={this.getMyAddress}>Get my address</button>
+                <Button variant="dark" onClick={this.getMyAddress}>Get my address</Button>{' '}
                 <p>{this.state.message1}</p>
                 
-                <button onClick={this.getMyItems}>Get my items</button>
+                <Button variant="dark" onClick={this.getMyItems}>Get my items</Button>{' '}
                 <ul>
                   {this.state.myitems.map((value, index) => {
                     return <li key={index}> {value}</li>
                   })}
                 </ul>
+              <div className="b">
                 <h2>Set Store Info:</h2>
-                <form onSubmit={this.setStoreInfo}>
-                  <div>
-                    <input
-                      name= "to"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <input type="submit" value="Submit"/>
-                </form>
-                <h2>Transfer Ownership</h2>
-                <form onSubmit={this.transferOwnership}>
-                  <div>
-                    <input
-                      name= "to"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      name="code"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <input type="submit" value="Submit"/>
-                </form>
-                <h2>Create Item:</h2>
-                <form onSubmit={this.createItem}>
-                  <div>
-                    <input
-                      name="to"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <input
-                      name="code"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <input type="submit" value="Submit"/>
-                </form>
-                <h2>Get Item's Owner:</h2>
-                <form onSubmit={this.getItemsOwner}>
-                  <div>
-                    <input
-                      name="code"
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <input type="submit" value="Submit"/>
-                  <p>{this.state.message4}</p>
-                </form>
+                <Form className = 'a' onSubmit={this.setStoreInfo}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                    <Form.Text className="text-muted">
+                      We'll never share your adress with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+              </div>
+              <h2>Transfer Ownership</h2>
+                <Form className = 'a' onSubmit={this.transferOwnership}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                    <Form.Text className="text-muted">
+                      We'll never share your adress with anyone else.
+                    </Form.Text>
+                  </Form.Group>
 
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Control  type="text" placeholder="Enter Code" name="code"
+                      onChange={this.handleChange}/>
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+                <h2>Create Item</h2>
+                <Form className = 'a' onSubmit={this.createItem}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                    <Form.Text className="text-muted">
+                      We'll never share your adress with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Control  type="text" placeholder="Enter Code" name="code"
+                      onChange={this.handleChange}/>
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+                <h2>Get Item's Owner:</h2>
+                <Form className = 'a' onSubmit={this.getItemsOwner}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Code" name = "code" onChange={this.handleChange} />
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+                
             </div>
-        );
+          );
+        }
+        else{
+          return(
+            <div className="App">
+                <HeaderComponent />
+                <h1>Luxury Contract</h1>
+                <Button variant="dark" onClick={this.amIStore}>Am I store?</Button>{' '}
+                <p>{this.state.storeflag}</p>
+                
+                <Button variant="dark" onClick={this.getMyAddress}>Get my address</Button>{' '}
+                <p>{this.state.message1}</p>
+                
+                <Button variant="dark" onClick={this.getMyItems}>Get my items</Button>{' '}
+                <ul>
+                  {this.state.myitems.map((value, index) => {
+                    return <li key={index}> {value}</li>
+                  })}
+                </ul>
+              <div className="b">
+                <h2>Transfer Ownership</h2>
+                <Form className = 'a' onSubmit={this.transferOwnership}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                    <Form.Text className="text-muted">
+                      We'll never share your adress with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Control  type="text" placeholder="Enter Code" name="code"
+                      onChange={this.handleChange}/>
+                  </Form.Group>
+                  <Form.Group controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Check me out" />
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+              </div>
+                <h2>Verify Item:</h2>
+                <Form className = 'a' onSubmit={this.verifyItems}>
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                    <Form.Text className="text-muted">
+                      We'll never share your adress with anyone else.
+                    </Form.Text>
+                  </Form.Group>
+                  <Button variant="dark" type="submit">
+                    Submit
+                  </Button>
+                </Form>
+                <p>{this.state.Itemflag}</p>
+            </div>);
+        }
+      }
     }
 }
 
