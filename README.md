@@ -110,21 +110,6 @@ Owners sell item to second hand platform, and buyers buy item from second hand p
 
 Tbc
 
-
-
-
-# Project Report
-
-## Introduction
-
-### Background
-
-With the rapid growth of resale sites could take up a larger share of the market in the future, counterfeit merchandise is becoming a more serious problem in luxury industry. Consumers are always looking for deals, but resale market is filled out with fake goods. It remains to be seen whether the technology will sufficiently fend off counterfeit merchandise, but tapping into Ethereum technology could be a pathway toward other brands protecting their products and perhaps attracting consumers through transparency and customer perks, too.
-
-The known business issues include AURA developed by LVMH with Microsoft and blockchain software company ConsenSys. Consumers can trace the lifecycle of its products, and find specific product care instructions, after-sales and warranty services. The platform could also be used to safeguard creative intellectual property and curb advertising fraud.
-
-According to this trend, our blockchain system is for fashion & luxury brands to reduce the risk of counterfeit and grey market by using a unique code attached with each item to track the products for life-long. Managers, stores and customers can also check the participants address and item infromation. What is left out in design is repairment history, stolen report and transport information.
-
 ## Use case
 
 - During a transaction, verification will be done automaticlly.
@@ -141,3 +126,58 @@ According to this trend, our blockchain system is for fashion & luxury brands to
 |                                |                               |                                                              |                                                          |
 |                                |                               |                                                              |                                                          |
 |                                |                               |                                                              |                                                          |
+
+
+
+
+
+# Project Report
+
+## Summary
+
+//todo
+
+## Introduction
+
+### Background
+
+With the rapid growth of resale sites could take up a larger share of the market in the future, counterfeit merchandise is becoming a more serious problem in luxury industry. Consumers are always looking for deals, but resale market is filled out with fake goods. It remains to be seen whether the technology will sufficiently fend off counterfeit merchandise, but tapping into Ethereum technology could be a pathway toward other brands protecting their products and perhaps attracting consumers through transparency and customer perks, too.
+
+The known business issues include AURA developed by LVMH with Microsoft and blockchain software company ConsenSys. Consumers can trace the lifecycle of its products, and find specific product care instructions, after-sales and warranty services. The platform could also be used to safeguard creative intellectual property and curb advertising fraud.
+
+According to this trend, our blockchain system is for fashion & luxury brands to reduce the risk of counterfeit and grey market by using a unique code attached with each item to track the products for life-long. Managers, stores and customers can also check the participants address and item infromation. What is left out in design is repairment history, stolen report and transport information.
+
+
+
+## List of User Interfaces
+
+Our user interfaces are designed based on 网页浏览器. Based on different accounts type(manager/retailer/customer), the webpage will automaticlly direct to different user interfaces. Also, different accounts will have different access to information and functions.
+
+We have some scraches for our UI design. The window is divided into two parts -- account info and transaction related. 
+
+- In account info part, the user can check their item(s)'s code, check their identity, and check their item's information. 
+- In transaction related part, the user could transfer their ownership of one bag to another, which is used when a transaction in reality happens; the user could also post their bag to the second-hand market regulated by managers, which process would be verified through the backend blockchain system.
+
+Our UI design includes several elements for better demonstration:
+
+- Textfields: The textfields allow users enter text, such as receipt address and item code. Some are required, and some are optional, such as a note for receipt.
+- Icons: The icons serve as a intuitive symbol to help our users navigate the system.
+- Message boxes: Message box is used after an user submit a request to transfer their item or post their item to second-hand market. It will tell users if their request is successul or not.
+- Buttons: Buttons allow users to request information or submit a request.
+
+// 关于颜色和图片的选择
+
+
+
+## Architecture Design Consideration
+
+
+
+## Guide book
+
+### Admin
+
+### User
+
+
+
