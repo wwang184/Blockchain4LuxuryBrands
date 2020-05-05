@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
+import './index.css';
 import web3 from './web3';
 import luxury from './luxury';
 import HeaderComponent from './Header';
-import { Button, Navbar, Nav, NavItem, NavDropdown, MenuItem,Carousel,Form,Spinner } from 'react-bootstrap';
+import FooterComponent from './Footer';
+import { Button,Form, Card, Jumbotron,Container,Row,Col} from 'react-bootstrap';
+import { BsFillBriefcaseFill, BsPeopleCircle } from "react-icons/bs";
+import { AiFillHome, AiFillProfile } from "react-icons/ai";
+import { GoMarkGithub } from "react-icons/go";
 
 class App extends Component {
 
@@ -35,11 +40,7 @@ class App extends Component {
     // will be executed after page gets loaded
     async componentDidMount(){
       const accounts = await window.ethereum.enable();
-      // solidity calls are async call, add await in front of call to make sync
-      //const accounts = await web3.eth.getAccounts().then(console.log);
       const manager = await luxury.methods.manager().call();
-      console.log("componentDidMount called")
-      //update this.state.manager so render will be executed
       this.setState({manager: manager, accounts: accounts});
     }
     
@@ -52,7 +53,7 @@ class App extends Component {
     async amIStore(){
       const rst = await luxury.methods.amIStore().call({from:this.state.accounts[0]});
       console.log(rst);
-      if (rst == true){
+      if (rst === true){
         this.setState({storeflag: "Yes"});
       }
       else {
@@ -60,13 +61,11 @@ class App extends Component {
       }
     }
     async getMyAddress(){
-      //const accounts = await web3.eth.getAccounts();
       var ads = await luxury.methods.getMyAddress().call({from:this.state.accounts[0]});
       console.log("Your address is -> " + this.state.accounts);
-      // set message for the return values to be show in the page..
-      // this is the best way i can do it now, but i think there will be other solutions
       this.setState({ message1: "Your address is " + ads});
     }
+
     setStoreInfo = async event => {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
@@ -82,19 +81,17 @@ class App extends Component {
       console.log("Create Item Completed ");      
     };
 
-
     async getMyItems(){
       var myitems = await luxury.methods.getMyItems().call({from: this.state.accounts[0]});
       this.setState({myitems:myitems});
     }
-    
     
     verifyItems = async event =>{
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
       await luxury.methods.verifyItems(this.state.code).send({from: accounts[0]});
       const adbs = await luxury.methods.verifyItems(this.state.code).call({from: this.state.accounts[0]});
-      if (adbs == true){
+      if (adbs === true){
         this.setState({Itemflag: "True"});
       }
       else {
@@ -122,161 +119,269 @@ class App extends Component {
       console.log("Transfer Completed "); 
     };
 
-
-    // This function will be called when any variable in this state...??
-    // And the return of this function will be rendered in to HTML and ??
+    visitgithub(){
+      window.location.href="https://github.com/wwang184/Blockchain4LuxuryBrands";
+  }
 
     render(){
-        // you can see this line in the browser console
-        console.log("manager is " + this.state.manager);
-        console.log("render called");
+        console.log("Manager is " + this.state.manager);
         console.log(this.state.accounts);
-        if (this.state.manager == "NOT SET"){
+
+        var bgstyle ={
+          "backgroundSize":"cover",
+          "backgroundImage":"url(https://i.pinimg.com/originals/02/7d/c5/027dc5eaf34770befe5d3e7fc5e62662.jpg)",
+          "backgroundPosition": "center",
+          "backgroundRepeat":"no-repeat",
+        }
+
+        var iconstyle = {
+          verticalAlign: 'text-top'
+        }
+
+
+        if (this.state.manager === "NOT SET"){
           return (
             <div className="App">Initiating</div>
           );
         }
         else{
           var managerflag = false;
-        if (this.state.manager.toLowerCase() == this.state.accounts[0].toLowerCase()){
-           managerflag = true;
-         }
-         console.log(managerflag);
-         if (managerflag == true){
-           return(
-            <div className="App">
+          if (this.state.manager.toLowerCase() === this.state.accounts[0].toLowerCase()){
+            managerflag = true;
+          }
+          console.log(managerflag);
+          if (managerflag === true){
+            return(
+              <div className="App">
                 <HeaderComponent />
-                <h1>Luxury Contract</h1>
-                <p>This contract is managed by {this.state.manager}</p>
+                <Jumbotron style={bgstyle}>
+                  <h1>Hello, you are logged in as manager.</h1>
+                  <p>
+                  This contract is managed by {this.state.manager}
+                  </p>
+                  <div id="learn-more">
+                   <Button variant="flat" onClick={this.visitgithub}>Learn more&ensp;<GoMarkGithub style={{verticalAlign: 'text-top'}}/></Button>
+                  </div>
+                  </Jumbotron>
 
-                <Button variant="dark" onClick={this.amIStore}>Am I store?</Button>{' '}
-                <p>{this.state.storeflag}</p>
+                  <h2>Operation</h2>
+                <hr size="6px" align="center" width="80%" color="grey" height="5px" ></hr> 
+                <Container>
+                  <Row>
+                    <Col>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Store Setup</Card.Title>
+                          <Form onSubmit={this.setStoreInfo}>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Store's Address</Form.Label>
+                              <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                              {/* <Form.Text className="text-muted">
+                                We'll never share your adress with anyone else.
+                              </Form.Text> */}
+                            </Form.Group>
+                            <Button variant="dark" type="submit">
+                              Submit
+                            </Button>
+                          </Form>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Close Store</Card.Title>
+                          <Form onSubmit={this.setStoreInfo}>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Store's Address</Form.Label>
+                              <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                              {/* <Form.Text className="text-muted">
+                                We'll never share your adress with anyone else.
+                              </Form.Text> */}
+                            </Form.Group>
+                            <Button variant="dark" type="submit">
+                              Submit
+                            </Button>
+                          </Form>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Item Setup</Card.Title>
+                          <Form onSubmit={this.createItem}>
+                            <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Store's Address</Form.Label>
+                              <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                              <Form.Label>Item's Code</Form.Label>
+                              <Form.Control  type="text" placeholder="Enter Code" name="code"
+                                  onChange={this.handleChange}/>
+                              <Form.Text className="text-muted">
+                                Please make sure you type in the correct identical code.
+                              </Form.Text>
+                              </Form.Group>
+                            <Button variant="dark" type="submit">
+                              Submit
+                            </Button>
+                          </Form>
+                          <p>{this.state.Itemflag}</p>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                  </Container>
+                  <h2>Information & Data</h2>
+                  <hr size="6px" align="center" width="80%" color="grey" height="5px" ></hr>
+                <Container>
+                  <Row>
+                    <Col>
+                      <Button variant="dark" onClick={this.getMyAddress}><AiFillHome style={iconstyle}/>&ensp;Get my address</Button>
+                    </Col>
+                    <Col>
+                      <p>{this.state.message1}</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>                
+                      <Button variant="dark" onClick={this.getMyItems}><BsFillBriefcaseFill style={iconstyle}/>&ensp;Check my items</Button>
+                    </Col>
+                    <Col>
+                      <ul>
+                        {this.state.myitems.map((value, index) => {
+                        return <li key={index}> {value}</li>
+                        })}
+                      </ul> 
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                    <Form onSubmit={this.getItemsOwner}>
+                      <Row>
+                        <Col>
+                          <Form.Group controlId="formBasicEmail">
+                            {/* <Form.Label>Check Item's Ownerhsip</Form.Label> */}
+                            <Form.Control type="text" placeholder="Enter Code" name = "code" onChange={this.handleChange} />
+                          </Form.Group>
+                        </Col>
+                        <Col className="align-items-center">
+                          {/* <Form.Label>&emsp;</Form.Label> */}
+                          <Button variant="dark" type="submit" block><BsPeopleCircle style={iconstyle}/>&ensp;Ownership Check</Button>
+                        </Col>
+                    </Row>
+                    </Form>
+                    </Col>
+                    <Col>
+                    <p>{this.state.message4}</p>
+                    </Col>
+                  </Row>
+                </Container>
                 
-                <Button variant="dark" onClick={this.getMyAddress}>Get my address</Button>{' '}
-                <p>{this.state.message1}</p>
-                
-                <Button variant="dark" onClick={this.getMyItems}>Get my items</Button>{' '}
-                <ul>
-                  {this.state.myitems.map((value, index) => {
-                    return <li key={index}> {value}</li>
-                  })}
-                </ul>
-              <div className="b">
-                <h2>Set Store Info:</h2>
-                <Form className = 'a' onSubmit={this.setStoreInfo}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                    <Form.Text className="text-muted">
-                      We'll never share your adress with anyone else.
-                    </Form.Text>
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
+                <hr size="6px" align="center" width="0%" color="grey" height="5px" ></hr> 
+                <hr size="6px" align="center" width="0%" color="grey" height="5px" ></hr> 
+                  
+                <FooterComponent />  
               </div>
-              <h2>Transfer Ownership</h2>
-                <Form className = 'a' onSubmit={this.transferOwnership}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                    <Form.Text className="text-muted">
-                      We'll never share your adress with anyone else.
-                    </Form.Text>
-                  </Form.Group>
-
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Control  type="text" placeholder="Enter Code" name="code"
-                      onChange={this.handleChange}/>
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
-                <h2>Create Item</h2>
-                <Form className = 'a' onSubmit={this.createItem}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                    <Form.Text className="text-muted">
-                      We'll never share your adress with anyone else.
-                    </Form.Text>
-                  </Form.Group>
-
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Control  type="text" placeholder="Enter Code" name="code"
-                      onChange={this.handleChange}/>
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
-                <h2>Get Item's Owner:</h2>
-                <Form className = 'a' onSubmit={this.getItemsOwner}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Code" name = "code" onChange={this.handleChange} />
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
-                
-            </div>
-          );
-        }
-        else{
-          return(
-            <div className="App">
+              
+            );
+          }
+          else{
+            return(
+              <div className="App">
                 <HeaderComponent />
-                <h1>Luxury Contract</h1>
-                <Button variant="dark" onClick={this.amIStore}>Am I store?</Button>{' '}
-                <p>{this.state.storeflag}</p>
-                
-                <Button variant="dark" onClick={this.getMyAddress}>Get my address</Button>{' '}
-                <p>{this.state.message1}</p>
-                
-                <Button variant="dark" onClick={this.getMyItems}>Get my items</Button>{' '}
-                <ul>
-                  {this.state.myitems.map((value, index) => {
-                    return <li key={index}> {value}</li>
-                  })}
-                </ul>
-              <div className="b">
-                <h2>Transfer Ownership</h2>
-                <Form className = 'a' onSubmit={this.transferOwnership}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                    <Form.Text className="text-muted">
-                      We'll never share your adress with anyone else.
-                    </Form.Text>
-                  </Form.Group>
+                <Jumbotron style={bgstyle}>
+                  <h1>Hi, you are logged in as {this.state.accounts[0]}</h1>
+                  <p>This contract is managed by {this.state.manager}</p>
+                  <p>Your asset is protected by Blockchain Technology! Want to learn more about how we do it?</p>
+                  <div id="learn-more">
+                   <Button variant="flat" onClick={this.visitgithub}>Learn more&ensp;<GoMarkGithub style={iconstyle}/></Button>
+                  </div>
+                </Jumbotron>
+                <h2>My Account</h2>
+                <hr size="6px" align="center" width="80%" color="grey" height="5px" ></hr>
+                <Container>
+                  <Row>
+                    <Col>
+                      <Button variant="dark" onClick={this.getMyAddress}><AiFillHome style={iconstyle}/>&ensp;Get my address</Button>
+                    </Col>
+                    <Col>
+                      <p>{this.state.message1}</p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>                
+                      <Button variant="dark" onClick={this.getMyItems}><BsFillBriefcaseFill style={iconstyle}/>&ensp;Check my items</Button>
+                    </Col>
+                    <Col>
+                      <ul>
+                        {this.state.myitems.map((value, index) => {
+                        return <li key={index}> {value}</li>
+                        })}
+                      </ul> 
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>                
+                      <Button variant="dark" ><AiFillProfile style={iconstyle}/>&ensp;Check my items Info</Button>
+                    </Col>
+                    <Col>
+                    </Col>
+                  </Row>
+                </Container>
 
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Control  type="text" placeholder="Enter Code" name="code"
-                      onChange={this.handleChange}/>
-                  </Form.Group>
-                  <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
+                <h2>Transaction</h2>
+                <hr size="6px" align="center" width="80%" color="grey" height="5px" ></hr> 
+                <Container>
+                  <Row>
+                    <Col>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Transfer My Item</Card.Title>
+                          <Form onSubmit={this.transferOwnership}>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Receipient's Address</Form.Label>
+                              <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                              <Form.Label>Item's Code</Form.Label>
+                              <Form.Control  type="text" placeholder="Enter Code" name="code" onChange={this.handleChange}/>
+                              <Form.Text className="text-muted">Transaction cannot be cancelled! Please double check. </Form.Text>                    
+                            </Form.Group>
+                            <Button className="submit-no-margin" variant="dark" type="submit">Submit</Button>
+                          </Form>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+
+                    <Col>
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>Post Item for Sale</Card.Title>
+                          <Form onSubmit={this.verifyItems}>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Item's Code</Form.Label>
+                              <Form.Control  type="text" placeholder="Enter Code" name = "to" onChange={this.handleChange} />
+                              <Form.Text className="text-muted">Your request will be verified. </Form.Text>                    
+                            </Form.Group>
+                            <Button className="submit-no-margin" variant="dark" type="submit">Submit</Button>
+                          </Form>
+                          <p>{this.state.Itemflag}</p>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                  </Container>
+                  
+                  <hr size="6px" align="center" width="0%" color="grey" height="5px" ></hr> 
+                  <hr size="6px" align="center" width="0%" color="grey" height="5px" ></hr> 
+                  
+                  <FooterComponent />
               </div>
-                <h2>Verify Item:</h2>
-                <Form className = 'a' onSubmit={this.verifyItems}>
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                    <Form.Text className="text-muted">
-                      We'll never share your adress with anyone else.
-                    </Form.Text>
-                  </Form.Group>
-                  <Button variant="dark" type="submit">
-                    Submit
-                  </Button>
-                </Form>
-                <p>{this.state.Itemflag}</p>
-            </div>);
+            );
+          }
         }
-      }
     }
 }
 
