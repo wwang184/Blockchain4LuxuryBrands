@@ -1,6 +1,6 @@
 import web3 from './web3';
 
-const address = "0xFa92e2dBdb1DA0B4d9f75Fe64fe6Dc60406f6609";
+const address = "0xb6b655F5a5B037A85eE75B7fC72e776Dfe7Ab48c";
 
 const abi =[
 	{
@@ -192,6 +192,25 @@ const abi =[
 			{
 				"name": "",
 				"type": "uint256[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_code",
+				"type": "uint256"
+			}
+		],
+		"name": "getItemInfo",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
 			}
 		],
 		"payable": false,

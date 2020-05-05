@@ -67,6 +67,13 @@ class App extends Component {
       this.setState({ message1: "Your address is " + ads});
     }
 
+    getItemInfo = async event => {
+      event.preventDefault();
+      var rst = await luxury.methods.getItemInfo(this.state.code).call({from:this.state.accounts[0]});
+      console.log("Get item info completed");
+      this.setState({ message8: rst});
+    }
+
     setStoreInfo = async event => {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
@@ -357,7 +364,7 @@ class App extends Component {
                   <Row>
                     <Col>
                     {/* //todo: add a function to check info, basiclly description now. */}
-                    <Form onSubmit={this.state.manager}>
+                    <Form onSubmit={this.getItemInfo}>
                       <Row>
                         <Col>
                           <Form.Group controlId="formBasicEmail">
@@ -370,8 +377,8 @@ class App extends Component {
                     </Row>
                     </Form>
                     </Col>
-                    <Col>
-                    <p>{this.state.message4}</p>
+                    <Col >
+                    <p>{this.state.message8}</p>
                     </Col>
                   </Row>
                 </Container>
