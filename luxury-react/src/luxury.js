@@ -1,6 +1,6 @@
 import web3 from './web3';
 
-const address = "0x268aF9534092722238359D051D966319b4959b5c";
+const address = "0xFa92e2dBdb1DA0B4d9f75Fe64fe6Dc60406f6609";
 
 const abi =[
 	{
@@ -41,6 +41,37 @@ const abi =[
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "_code",
+				"type": "uint256"
+			},
+			{
+				"name": "color",
+				"type": "string"
+			},
+			{
+				"name": "date",
+				"type": "string"
+			}
+		],
+		"name": "createItem",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -53,6 +84,25 @@ const abi =[
 			{
 				"name": "",
 				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "c",
+				"type": "address"
+			}
+		],
+		"name": "isStore",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"payable": false,
@@ -107,24 +157,6 @@ const abi =[
 		"type": "function"
 	},
 	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"name": "_code",
-				"type": "uint256"
-			}
-		],
-		"name": "createItem",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"constant": true,
 		"inputs": [],
 		"name": "getcodeslen",
@@ -160,20 +192,6 @@ const abi =[
 			{
 				"name": "",
 				"type": "uint256[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "amIStore",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"payable": false,

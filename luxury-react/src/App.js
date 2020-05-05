@@ -24,13 +24,14 @@ class App extends Component {
             defaultAccount: "NOT SET",
             managerflag :false,
             accounts:[],
+            color:"NOT SET"
+           
         };
 
         window.ethereum.on('accountsChanged', (account) => {
         console.log("MetaMask account just changed to " + account);
         this.setState({defaultAccount: account});    
         });
-        this.amIStore = this.amIStore.bind(this);
         this.getMyAddress = this.getMyAddress.bind(this);
         this.getMyItems = this.getMyItems.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -49,15 +50,15 @@ class App extends Component {
       // and use it to target the key on our `state` object with the same name, using bracket syntax
       this.setState({ [evt.target.name]: evt.target.value });
     }
-
-    async amIStore(){
-      const rst = await luxury.methods.amIStore().call({from:this.state.accounts[0]});
+    isStore = async event => {
+      event.preventDefault();
+      var rst = await luxury.methods.isStore(this.state.to).call({from:this.state.accounts[0]});
       console.log(rst);
-      if (rst === true){
-        this.setState({storeflag: "Yes"});
+      if (rst == true){
+        this.setState({storeflag: "Yes", message7: "This address is a store address."});
       }
       else {
-        this.setState({storeflag: "No"});
+        this.setState({storeflag: "No", message7: "This address is not a store address."});
       }
     }
     async getMyAddress(){
@@ -70,52 +71,66 @@ class App extends Component {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
       await luxury.methods.setStoreInfo(this.state.to).send({from: accounts[0]});
-      this.setState({message2:"success!" });
+      this.setState({message2:"Store setup success!" });
       console.log("Set Store Completed ");      
     };
+
     createItem = async event => {
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
-      await luxury.methods.createItem(this.state.to, this.state.code).send({from: accounts[0]});
-      this.setState({message3:"success!" });
-      console.log("Create Item Completed ");      
+
+      var tempDate = new Date();
+      var todaydate = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate();
+
+      var rst = await luxury.methods.createItem(this.state.to, this.state.code, this.state.color, todaydate).send({from: accounts[0]});
+      console.log(rst);
+      if (rst){
+        this.setState({message3: "Item registered successfully! "});
+      }
+      else{
+        this.setState({message3: "Failed to register this item. Please check address and code. "});
+      };
+      console.log("Create Item Completed");      
     };
 
     async getMyItems(){
       var myitems = await luxury.methods.getMyItems().call({from: this.state.accounts[0]});
-      this.setState({myitems:myitems});
+      this.setState({myitems:myitems});//todo
     }
     
     verifyItems = async event =>{
       event.preventDefault();
-      const accounts = await web3.eth.getAccounts();
-      await luxury.methods.verifyItems(this.state.code).send({from: accounts[0]});
-      const adbs = await luxury.methods.verifyItems(this.state.code).call({from: this.state.accounts[0]});
-      if (adbs === true){
-        this.setState({Itemflag: "True"});
+      var adbs = await luxury.methods.verifyItems(this.state.to).call({from: this.state.accounts[0]});
+      console.log(adbs)
+      if (adbs == true){
+        this.setState({message6: "Verification passed!"});
       }
       else {
-        this.setState({Itemflag: "False"});
+        this.setState({message6: "Verification failed!"});
       }
-      console.log("The item is " + this.state.Itemflag);
-      this.setState({ message6: "The item is " + this.state.Itemflag});
+      console.log("Verify completed");
 
     };
-
 
     getItemsOwner = async event =>{
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
       await luxury.methods.getItemOwner(this.state.code).send({from: accounts[0]})
       var ads = await luxury.methods.getItemOwner(this.state.code).call({from: accounts[0]});
-      console.log("The owner is -> " + this.state.accounts);
       this.setState({ message4: "Owner's address is " + ads});
+      console.log("Getting owner completed. " , "The owner is -> " , this.state.accounts);
     };
+
     transferOwnership = async event =>{
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
-      await luxury.methods.transferOwnership(this.state.to,this.state.code).send({from: accounts[0]})
-      this.setState({message5:"success!" });
+      var rst = await luxury.methods.transferOwnership(this.state.to,this.state.code).send({from: accounts[0]})
+      if (rst){
+        this.setState({message5: "Transfer succeeded!"});
+      }
+      else {
+        this.setState({message5: "Transfer failed!"});
+      }
       console.log("Transfer Completed "); 
     };
 
@@ -149,7 +164,7 @@ class App extends Component {
           if (this.state.manager.toLowerCase() === this.state.accounts[0].toLowerCase()){
             managerflag = true;
           }
-          console.log(managerflag);
+          // console.log(managerflag);
           if (managerflag === true){
             return(
               <div className="App">
@@ -176,13 +191,11 @@ class App extends Component {
                             <Form.Group controlId="formBasicEmail">
                               <Form.Label>Store's Address</Form.Label>
                               <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
-                              {/* <Form.Text className="text-muted">
-                                We'll never share your adress with anyone else.
-                              </Form.Text> */}
                             </Form.Group>
                             <Button variant="dark" type="submit">
                               Submit
                             </Button>
+                            <p>{this.state.message2}</p>
                           </Form>
                         </Card.Body>
                       </Card>
@@ -190,7 +203,7 @@ class App extends Component {
                     <Col>
                       <Card>
                         <Card.Body>
-                          <Card.Title>Close Store</Card.Title>
+                          <Card.Title>Store Shutdown</Card.Title>
                           <Form onSubmit={this.setStoreInfo}>
                             <Form.Group controlId="formBasicEmail">
                               <Form.Label>Store's Address</Form.Label>
@@ -212,22 +225,28 @@ class App extends Component {
                           <Card.Title>Item Setup</Card.Title>
                           <Form onSubmit={this.createItem}>
                             <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Store's Address</Form.Label>
+                              <Form.Label>Store's Address</Form.Label>
                               <Form.Control md = '3' type="text" placeholder="Enter Address" name = "to" onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="formBasicEmail">
+                              <Form.Label>Item's description</Form.Label>
+                              <Form.Control md = '3' type="text" placeholder="Enter description" name = "color" onChange={this.handleChange} />
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
                               <Form.Label>Item's Code</Form.Label>
                               <Form.Control  type="text" placeholder="Enter Code" name="code"
                                   onChange={this.handleChange}/>
                               <Form.Text className="text-muted">
-                                Please make sure you type in the correct identical code.
+                                Please make sure you type in the correct unique code.
                               </Form.Text>
-                              </Form.Group>
+                            </Form.Group>
                             <Button variant="dark" type="submit">
                               Submit
                             </Button>
+                            {/* {need fix: transaction will return the info of the transaction,
+                            therefore it is not able to check the return value in the way} */}
+                            <p>{this.state.message3}</p>
                           </Form>
-                          <p>{this.state.Itemflag}</p>
                         </Card.Body>
                       </Card>
                     </Col>
@@ -244,18 +263,29 @@ class App extends Component {
                       <p>{this.state.message1}</p>
                     </Col>
                   </Row>
+
                   <Row>
-                    <Col>                
-                      <Button variant="dark" onClick={this.getMyItems}><BsFillBriefcaseFill style={iconstyle}/>&ensp;Check my items</Button>
+                    <Col>
+                      <Form onSubmit={this.isStore}>
+                        <Row>
+                          <Col>
+                            <Form.Group controlId="formBasicEmail">
+                              {/* <Form.Label>Check Item's Ownerhsip</Form.Label> */}
+                              <Form.Control type="text" placeholder="Enter address" name = "to" onChange={this.handleChange} />
+                            </Form.Group>
+                          </Col>
+                          <Col className="align-items-center">
+                            {/* <Form.Label>&emsp;</Form.Label> */}
+                            <Button variant="dark" type="submit" block><BsPeopleCircle style={iconstyle}/>&ensp;Identity Check</Button>
+                          </Col>
+                      </Row>
+                    </Form>
                     </Col>
                     <Col>
-                      <ul>
-                        {this.state.myitems.map((value, index) => {
-                        return <li key={index}> {value}</li>
-                        })}
-                      </ul> 
+                      <p>{this.state.message7}</p>
                     </Col>
                   </Row>
+
                   <Row>
                     <Col>
                     <Form onSubmit={this.getItemsOwner}>
@@ -268,7 +298,7 @@ class App extends Component {
                         </Col>
                         <Col className="align-items-center">
                           {/* <Form.Label>&emsp;</Form.Label> */}
-                          <Button variant="dark" type="submit" block><BsPeopleCircle style={iconstyle}/>&ensp;Ownership Check</Button>
+                          <Button variant="dark" type="submit" block><BsFillBriefcaseFill style={iconstyle}/>&ensp;Ownership Check</Button>
                         </Col>
                     </Row>
                     </Form>
@@ -317,16 +347,31 @@ class App extends Component {
                     <Col>
                       <ul>
                         {this.state.myitems.map((value, index) => {
-                        return <li key={index}> {value}</li>
+                          if (value!=0){
+                        return <li key={index}> {value}</li>}
                         })}
                       </ul> 
                     </Col>
                   </Row>
+
                   <Row>
-                    <Col>                
-                      <Button variant="dark" ><AiFillProfile style={iconstyle}/>&ensp;Check my items Info</Button>
+                    <Col>
+                    {/* //todo: add a function to check info, basiclly description now. */}
+                    <Form onSubmit={this.state.manager}>
+                      <Row>
+                        <Col>
+                          <Form.Group controlId="formBasicEmail">
+                            <Form.Control type="text" placeholder="Enter Code" name = "code" onChange={this.handleChange} />
+                          </Form.Group>
+                        </Col>
+                        <Col className="align-items-center">
+                          <Button variant="dark" type="submit" block><AiFillProfile style={iconstyle}/>&ensp;Check item info</Button>
+                        </Col>
+                    </Row>
+                    </Form>
                     </Col>
                     <Col>
+                    <p>{this.state.message4}</p>
                     </Col>
                   </Row>
                 </Container>
@@ -350,6 +395,7 @@ class App extends Component {
                               <Form.Text className="text-muted">Transaction cannot be cancelled! Please double check. </Form.Text>                    
                             </Form.Group>
                             <Button className="submit-no-margin" variant="dark" type="submit">Submit</Button>
+                            <p>{this.state.message5}</p>
                           </Form>
                         </Card.Body>
                       </Card>
@@ -367,7 +413,7 @@ class App extends Component {
                             </Form.Group>
                             <Button className="submit-no-margin" variant="dark" type="submit">Submit</Button>
                           </Form>
-                          <p>{this.state.Itemflag}</p>
+                          <p>{this.state.message6}</p>
                         </Card.Body>
                       </Card>
                     </Col>
