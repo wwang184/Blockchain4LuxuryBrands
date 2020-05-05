@@ -1,6 +1,6 @@
 # Blockchain for Fashion & Luxury Brands
 
-Wanqi Wang, Xiaoyu Deng, Hanchi Zhang,
+Xiaoyu Deng, Yuhui Hu, Wanqi Wang, Hanchi Zhang
 
 ## Brief Introduction
 
