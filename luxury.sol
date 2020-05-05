@@ -8,11 +8,15 @@ contract Luxury {
 
     address public manager;
     uint[] items;
+    string wrong = "Access denied.";
 
     struct Item {
         address curr_owner;
-        // History records, transfer and repair
-        // Other information or description
+        //address[] transfer_record;
+        // Other information or description;
+        string created_date;
+        string color;
+        
     }
     struct Info{
         bool isCustomer;
@@ -33,7 +37,7 @@ contract Luxury {
 // ----------------- Functions for manager to organize ----------------- //
 
     // ---------------- Transaction: Setting up stores, customers and issue new item ---------------- //
-    function setStoreInfo(address to) public{
+    function setStoreInfo(address to) public {
         require (msg.sender == manager);
 
         Info storage store = infoArr[to];
@@ -49,7 +53,7 @@ contract Luxury {
         infoArr[to] = me;
     }
 
-    function createItem(address to, uint _code) public {
+    function createItem(address to, uint _code, string color, string date) public returns (uint){
         // Only manager(the company) can register a new item
         require (msg.sender == manager);
 
@@ -59,12 +63,17 @@ contract Luxury {
 
         // When the item is created, the receipient must be a store but not a customer.
         if (store.isRetailer == false){
-            return;
+            return 0;
         }
         newItem.curr_owner = to;
+        newItem.color = color;
+        newItem.created_date = date;
+        //newItem.transfer_record = [];
+        //newItem.transfer_record.push(to);
         itemArr[_code] = newItem;
         //add new item code to the code list
         items.push(_code);
+        return 1;
     }
 
     // ---------------- View: Checking status ---------------- //
@@ -96,14 +105,13 @@ contract Luxury {
             // the item id should be added to buyer
             // this transaction details should be added to the item records
             item.curr_owner = to;
+            //item.transfer_record.push(to);
             itemArr[_code]= item;
-
             return true;
         }
         return false;
-
-
     }
+    
 
     // ---------------- View: Checking status ---------------- //
 
@@ -126,7 +134,13 @@ contract Luxury {
         return myitems;
     }
 
-    // function getItemInfo()
+    function getItemInfo(uint _code) public view returns (string){
+        Item storage item = itemArr[_code];
+        if (item.curr_owner == msg.sender){
+            return item.color;
+        }
+        return wrong;
+    }
 
     function verifyItems(uint _code) public view returns (bool){
         Item storage item = itemArr[_code];
@@ -146,14 +160,17 @@ contract Luxury {
         return items.length;
     }
     
-    function amIStore() public view returns (bool){
-        Info storage me = infoArr[msg.sender];
+    function isStore(address c) public view returns (bool){
+        Info storage me = infoArr[c];
         if (me.isRetailer == true){
             return true;
         }
         else return false;
     }
-
+    //function getItemTransactionHistory(uint _code) public view returns(address[]){
+     //   Item storage item = itemArr[_code];
+     //   return item.transfer_record;
+    //}
 
     // **functions should be constructed later:**
     //  getMyTransactionHistory
