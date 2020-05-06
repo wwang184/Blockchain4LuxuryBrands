@@ -131,8 +131,15 @@ class App extends Component {
     transferOwnership = async event =>{
       event.preventDefault();
       const accounts = await web3.eth.getAccounts();
+      console.log(this.state.myitems)
+      var flag = false;
+      {this.state.myitems.map((value, index) => {
+        if (this.state.code == value){
+          flag = true;
+        }
+      })}
       var rst = await luxury.methods.transferOwnership(this.state.to,this.state.code).send({from: accounts[0]})
-      if (rst){
+      if (flag == true){
         this.setState({message5: "Transfer succeeded!"});
       }
       else {
