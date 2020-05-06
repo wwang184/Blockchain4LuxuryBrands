@@ -117,6 +117,24 @@ TODO: insrt pic
 
 ### User
 
+1. Manager View(1st address)
+
+-  First, create a store, use 2nd address
+- Second, create a item, use 2nd address
+- Third, check identity and check product owner
+
+2. Store View(2nd address)
+	- Check my item --> the item manager just created
+	- Check item info --> the description manager just put in 
+	- Transfer this item  to 3rd account (in real life this mean a customer bought this product)
+	- (Ignore resale)
+3. Customer View(3nd address)
+	- Check item --> just bought
+	- Resale verification, could what if I use real code or fake code ->verification passed or failed
+	- Second hand selling: if I'm trying to sell a item that is not belonged to me -->transfer failed
+
+Bonus: Learn more! Visit our GitHub webpage!
+
 ### API
 
 
@@ -152,7 +170,20 @@ TODO: insrt pic
 
 *"The digital identity is like a passport that assures the authenticity of both new and vintage goods and records information such as transfers of ownership or when the item is serviced. Depending on the brand, **the passport can be linked to the item through serial number, chip or QR code, accessible through an app**."*
 
+## [Postmortem and Next Steps](https://www.geekpoweredstudios.com/postmortem-checklist/)
 
+TODO: sum up the whole project in the perspective of development team(us). (Team)
+
+- What went right during the project that we should repeat next time?
+- What went wrong that we should avoid next time?
+- Dates the project was live
+- Why the project was launched 
+- What was launched (including screenshots and data on what was changed)
+- The results of the project (including more metrics that were tracked)
+- Feedback from all team members
+- Why you ended up with the results you did
+- What the next action steps are
+- What you’re going to do differently next time
 
 --------------------------------------
 
