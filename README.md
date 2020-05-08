@@ -6,11 +6,11 @@ Xiaoyu Deng, Yuhui Hu, Wanqi Wang, Hanchi Zhang
 
 ## Summary
 
-Second hand buyers are always worrying if they are buying an authentic product, especially when purchasing some luxury products. In China, there is a shoes trading and information platform called Du. It also offers service to check if one pair of shoes is authentic or not. However, it also was accused of selling some forfeit products. In the meantime, luxury brands are fighting with counterfeiters by investing high-tech solutions, and thery are paying a lot for lawyers for those lawsuits.
+Secondhand buyers are always worrying if they are buying an authentic product, especially when purchasing some luxury products. In China, there is a shoe trading and information platform called Du. It also offers the service to check if one pair of shoes is authentic or not. However, it also was accused of selling some forfeit products. In the meantime, luxury brands are fighting with counterfeiters by investing high-tech solutions, and they are paying a lot for lawyers for those lawsuits.
 
 - [How luxury brands can beat couterfeiters](https://hbr.org/2019/05/how-luxury-brands-can-beat-counterfeiters)
 
-Our solution for this, is to combine blockchain technology with the life cycle of the real item. Our smart contract **keeps a record of every authentic product, including the information of the product and the history record of this product**. For each product, it will be registered in the blockchain by the managers of the company, which provided proof of authenticity of this product; its ownership stores in the blockchain assures the buyer that he or she is buying a authentic product from the person who really owns it. To realize this, we aslo need some physical support. For example, *The information for an item stored in blockchain should be linked to the item through serial number, chip or QR code, accessible through an app.*
+Our solution for this is to combine blockchain technology with the life cycle of the physical item. Our smart contract **keeps a record of every authentic product, including information about the product and the historical record of this product**. For each product, it will be registered in the blockchain by the managers of the company, which provided proof of authenticity of this product; its ownership stored in the blockchain assures the buyer that he or she is buying an authentic product from the person who indeed owns it. To realize this, we also need some physical support. For example, *The information for an item stored in blockchain should be linked to the item through serial number, chip or QR code, accessible through an app.*
 
 ## Introduction
 
@@ -18,126 +18,137 @@ Our solution for this, is to combine blockchain technology with the life cycle o
 
 With the rapid growth of resale sites could take up a larger share of the market in the future, counterfeit merchandise is becoming a more serious problem in luxury industry. Consumers are always looking for deals, but resale market is filled out with fake goods. It remains to be seen whether the technology will sufficiently fend off counterfeit merchandise, but tapping into Ethereum technology could be a pathway toward other brands protecting their products and perhaps attracting consumers through transparency and customer perks, too. 
 
-TODO: check grammar (Hanchi)
+#Todo: check grammar (Hanchi)
 
 ### Known business issues and problems
 
-~~The known business issues include AURA developed by LVMH with Microsoft and blockchain software company ConsenSys. Consumers can trace the lifecycle of its products, and find specific product care instructions, after-sales and warranty services. The platform could also be used to safeguard creative intellectual property and curb advertising fraud.~~
+- Luxury brands are bothered by suing factories that produce replica items.
+- Customers are worrying the authenticity of products when trading in secondhand marketplace.
+- Secondhand luxury platforms pay a lot in quality check and authentication experts to provide a safe and reliable platform for alluent consumers to buy and sell luxury items. 
 
-TODO: this is not business issue, need to revise by Hanchi or Yuhui
+### System objectives
 
-*"Secondhand luxury platforms are now increasingly investing in quality check and authentication experts to provide a safe and reliable platform for alluent consumers to buy and sell luxury items. "*
+- Reducing the risk of counterfeit and grey markets to protect brand and customers
 
-### System objectives (need to do what to derive benefits)
+- Provide a transparent market for the resale with higher efficiency and lower cost
 
-- Reducing the risk of counterfiet and grey markets to protect brand and customers
-- Provide transparent market for resale market with higher efficiency and lower cost (how?)(TODO Yuhui)
+	This blockchain system would record all the items sold on the market that fake items can be easily identified by records on the blockchain. With the decrease of fake items on the market, the cost on the suing would decrease as well, that the blockchain would save the law sue cost for the company. Besides, with the decentralized feature of blockchain, customers do not need to verify the item in the store, that saves the time and money cost on the verification process. 
+
 - Tracking the life of products
 
 ### Scope of project
 
-According to this trend, our blockchain system is for fashion and luxury brands to reduce the risk of counterfeit and grey market by using a unique code attached with each item to track the products for life-long. Managers, stores and customers can also check the participants address and item infromation. What is left out in design is repairment history, stolen report and transport information.
+According to this trend, our blockchain system is for fashion and luxury brands to reduce the risk of counterfeit and grey-market by using a unique code attached with each item to track the products for life-long. Managers, stores, and customers can also check information about items and other data in terms of different identities. In the future, we could also add repair history, stolen report, and transport information to our design.
 
-## Requirement gathering schedule, procedure and result?
+## Requirement gathering procedure and result
 
-TODO: do we need to do this? is it from the first deliverable? (Yuhui)
+We talked to a lawyer working for Hermes and she told us that all her work is suing replica factories in China. Almost all Luxury and fashion brands are suffering from the replica and fake items by hurting the brand value and hurting the customer experience. Also, the world's largest Luxury company, Louis Vuitton, is planning to build a blockchain system to protect the brand from fake items and controlling the supply chain. Our result came that the system should have the following functions: 
+
+- Managers can add an item to the blockchain
+- System check the item series number to verify an item
+- The owner of an item can sell items on the system and publish the resale information online 
+- Authorize stores and maintenance stores can add information adhered to the item on the blockchain
+
+## Use case diagram and description
+
+1. Item created/produced
+
+| Use  Case Name                                               | Item  produced by factory                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Actor                                                        | Factory                                                      |
+| Secondary  Actor                                             | Manager  and store                                           |
+| Use  Case Overview                                           | This  use case describes when an item is produced by factory and transported to  store for selling. |
+| Preconditions:                                               | -     The store needs to be a  verified store.               |
+| Basic  Flow:  -    The factory sign for items to be registered into network.  -    The manager receives applications by factory.  -    The manager checks the production and logs in to the system,  put in the store’s address and code number of items, clicks the create  button.  -    A message will be sent to store notifying this transportation.  -    The store could check his current owned item by clicking check  my item button.   -    The store report physical item deliver information to  manager  -    The use case ends. |                                                              |
+
+ 
+
+\2.   Item Sold from Store
+
+| Use  Case Name                                               | Item  Sold from Store                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Actor                                                        | Customer                                                     |
+| Secondary  Actor                                             | Retailer  Store                                              |
+| Use  Case Overview                                           | This  use case describes when a customer buys a product from a retailer store. |
+| Preconditions:                                               | -     The store needs to be a  verified store.  -     The customer needs to  have an account and know his address of this account. |
+| Basic  Flow: <br /> -    The customer visits the retailer store and purchase an item.  <br />-    The customer pays for this item.<br />  -    The store gets code number of this item.  <br />-    The store logs in to the system, put in the customer’s  address and code number of item, clicks transfer item button  <br />-    A message will be sent to customer notifying this  transaction.  -    The customer could check his current owned item by clicking  check my item button.   <br />-    The use case ends. |                                                              |
+
+## Non-functional requirements
+
+1. Managers must make sure the code for item is unique.
+
+2. Stores are never allowed to transfer an item without receiving the payment.
+
+3. Privacy of user information should be audited.
 
 ## Blockchain App Models
 
-For this business purpose, our blockchain should be a private network, managed by a management team of the company. Basiclly, the team acts as the manager of the deployed contract. 
+For our business purpose, our blockchain should be a private network, managed by a management team of the company. The team acts as the manager of the deployed contract.
 
-Our blockchain should also be perminssioned, which means each participant has a unique identity to enable the use of policies to constrain network participantion and access to transaction details.
+Our blockchain should also be permissioned, which means each participant has a unique identity to enable the use of policies to constrain network participation and access to transaction details.
 
 ### Participants
 
-Considering our solution should be merged to the existing business cycle, manager, retailers, and customers will all join our blockchain network. 
+Considering our solution should be merged into the current business cycle, managers, retailers, and customers will all join our blockchain network.
 
 - Regulator/Manager: this particular company (Herme for example)
 - Retailers/Stores
 - Consumers: including
 	- Buying from stores buyers
-	- Second-hand buyers
-	- Second-hand sellers
-	- Second-hand shops
+	- Secondhand buyers
+	- Secondhand sellers
+	- Secondhand shops
 - Maintenance (Repairment providers)
 
 ### Assets
 
 The asset on our blockchain system is a **digital representation** of the physical product. It is like a unique **serial number** that can be verified and store essential data. Every digital code is linked to a physical item, which also needs physical control.
 
-*"It will provides consumers transparency and sigle source of truth: the authenticity of the product, details on product origin and components, instructions for product care and the after-sales and warranty services avalaible."*
+*"It will provide consumers transparency and a single source of truth: the authenticity of the product, details on product origin and components, instructions for product care, and the after-sales and warranty services available."*
 
-The regulator creates the **registration** for a new item on the blockchain, and transfer the item ownership to the retailers.
+The regulator creates the **registration** for a new item on the blockchain and transfers the item ownership to the retailers.
 
-**Properties:**
+Following are some of the properties it should have:
 
-- The struct contains one **unique id**. ~~Participants should be able to check if this id is authorized, which means the linked item is not a forfeitpiece.~~
-- The struct should save the **owner**. When transfer happens, it coud be verified one really owns this item.
-- The struct should contain the **history records** the linked item, including transfer history and repair history.
-- The struct could also store some **information** about this item. For example, release date, produce date, material, color...depends on the product itself.
+- The struct contains one **unique id**. 
+- The struct should save the **owner**. When transfer happens, it could be verified one indeed owns this item.
+- The struct should contain the **historicalrecords** the linked item, including transfer history and repair history.
+- The struct could also store some **information** about this item. For example, release date, produce date, material,     color...depends on the product itself.
 
 ### Transactions
 
-Since the business cycle is all most all about the product, any transfer of a product happened in the real world will cause a transaction happen on our blockchain network. Below is a chart introducing a simplified life cycle of a product.
+Since the business cycle is all most all about the product, any transfer of a product that happened in the real world will cause a transaction to occur on our blockchain network. Below is a chart introducing a simplified life cycle of a product. Our transactions can be categorized into these types:
+
+- **Item creation**: It means there is an item produced in real life. The manager should register this item into our blockchain network. By doing this, the manager has to provide a unique code for the item, and the address of the store which this item is transported to. 
+
+- **Item transfer**: It means the ownership of an item is transferred, and this transaction represents many situations in real life. For example, when an item is purchased by a customer, when an item is sold to a buyer in secondhand marketplace, when a customer returns this item to a store, etc.
+
+- **Item remove**: It means an item cannot serve its function anymore. Then it should be registered as a disabled item in this blockchain system to prevent any illegal trading. 
 
 ### Events
 
-TODO: check again what is event.. what;s the difference btw ebents and use cases (Wanqi)
+1. **Notification for secondhand items posting**: Our system could help the brand to build a healthy secondhand market by allowing the users to post their verified product to the secondhand marketplace. For a better experience for the users, we could develop events related to his posting. For example, when other users "like" this item, and when an item you liked is sold.
+
+2. **Notification for stolen items**: Our system is also aiming to reduce illegal trading in markets. When a user reports a verified stolen item to the manager, all the users could get notifications about this item. If anyone finds out this item being traded in the market, he could report this behavior to the system. Also, all the customers could pay special attention when they are buying items from others.
 
 ## List of User Interfaces
 
-Our user interfaces are designed based on web browser. Based on different accounts type(manager/retailer/customer), the webpage will automaticlly direct to different user interfaces. Also, different accounts will have different access to information and functions.
+Our user interfaces are designed based on the web browser. Based on different account types (manager/retailer/customer), the webpage will automatically direct to corresponded user interfaces. Also, different accounts will have different access to information and functions.
 
-We have some scraches for our UI design. The window is divided into two parts -- account info and transaction related. 
+We have some scratches for our UI design. The window includes two parts -- account info part and transaction-related part. 
 
-- In account info part, the user can check their item(s)'s code, check their identity, and check their item's information. 
-- In transaction related part, the user could transfer their ownership of one bag to another, which is used when a transaction in reality happens; the user could also post their bag to the second-hand market regulated by managers, which process would be verified through the backend blockchain system.
+- In the account info part, the user can check their item(s)'s code, their identity, and their item's information. 
+- In transaction-related part, the user could transfer their ownership of one item to another, which is used when a transaction in reality happens; the user could also post their item to the secondhand marketplace regulated by managers, and this process would be verified through the backend blockchain system.
 
 Our UI design includes several elements for better demonstration:
 
-- Navibars: navigate users between homepage, user's dashboard and second hand marketplace.
-- Textfields: The textfields allow users enter text, such as receipt address and item code. Some are required, and some are optional, such as a note for receipient.
-- Icons: The icons serve as a intuitive symbol to help our users navigate the system.
-- Message boxes: Message box is used after an user submit a request to transfer their item or post their item to second-hand market. It will tell users if their request is successul or not.
+- Navbars: navigate users between homepage, user's dashboard, and secondhand marketplace.
+- Textfields: The textfields allow users to enter text, such as receipt address and item code. Some are required, and some are optional, such as a note for the recipient.
+- Icons: The icons serve as an intuitive symbol to help our users navigate the system.
+- Message boxes: Message box is used after a user submit a request to transfer their item or post their item to secondhand market. It will tell users if their request is successful or not.
 - Buttons: Buttons allow users to request information or submit a request.
 
 The final UI is like below:
-
-TODO: insrt pic
-
-
-
-## Architecture Design Consideration ?
-
-
-
-## Guide book
-
-### Admin
-
-### User
-
-1. Manager View(1st address)
-
--  First, create a store, use 2nd address
-- Second, create a item, use 2nd address
-- Third, check identity and check product owner
-
-2. Store View(2nd address)
-	- Check my item --> the item manager just created
-	- Check item info --> the description manager just put in 
-	- Transfer this item  to 3rd account (in real life this mean a customer bought this product)
-	- (Ignore resale)
-3. Customer View(3nd address)
-	- Check item --> just bought
-	- Resale verification, could what if I use real code or fake code ->verification passed or failed
-	- Second hand selling: if I'm trying to sell a item that is not belonged to me -->transfer failed
-
-Bonus: Learn more! Visit our GitHub webpage!
-
-### API
-
-
 
 ## Plan for Next Step
 
@@ -153,13 +164,13 @@ Bonus: Learn more! Visit our GitHub webpage!
 #### Front-end
 
 - Seperate retailer view and customer view
-- Add alert for invalid put in ?
+- Add alert for invalid input in textfields
 
 #### Business Side
 
 - Come up a solution for online sale and trading
 
-### Plan for migration and conversion(merging?)
+### Plan for migration and conversion
 
 - CRM and product life cycle
 
@@ -172,42 +183,57 @@ Bonus: Learn more! Visit our GitHub webpage!
 
 ## [Postmortem and Next Steps](https://www.geekpoweredstudios.com/postmortem-checklist/)
 
-TODO: sum up the whole project in the perspective of development team(us). (Team)
+The whole project lasted for nearly four months, from zero at the very beginning to now. We started from proposing our blockchain design on current business issues, to identifying and designing our system function (write solidity code), then doing solution research while designing an developing front-end user interface (write html and css), and then setting up local blockchain network, and finally linking all the stuffs together to end up with a demo application. During this process, we received a lot instructions and help from two professors. Many thanks to Professor Chiang and Professor Chu.
 
-- What went right during the project that we should repeat next time?
-- What went wrong that we should avoid next time?
-- Dates the project was live
-- Why the project was launched 
-- What was launched (including screenshots and data on what was changed)
-- The results of the project (including more metrics that were tracked)
-- Feedback from all team members
-- Why you ended up with the results you did
-- What the next action steps are
-- What you’re going to do differently next time
+We finished up with a good-looking website with front end UI design and back end solidity code as our demo application. Users could use the whole project to mock a retail business cycle with the support of blockchain technology. To achieve this goal, everyone in this team put a lot of effort on learning new stuffs. Not only did we participate the class and group discussion, but also tried our best to use online resources to equip us with new knowledge.
+
+Under the requirement by professors, we kept a good pace on this project through whole semster. Also, the presentations of other groups gave us a lot of insights for our own project, from their content to format. Many thanks to all other classmates.
+
+In the future, we could still furthur develop our smart contract to add more functions. Also, we should consider the relationship between blockchain network and other management techniques, such as database.
+
+
 
 --------------------------------------
 
+# Appendix
+
+## Guide book
+
+### Admin
+
+The admin has to deploy a contract with the help of Metamask, Ganache and Ethreum Remix. 
+
+First, activate a local blockchain by clicking QUICKSTART or NEW WORKSPACE in Ganache. 
+
+Second, setup your RPC network in Metamask by clicking add network button.
+
+Third, deploy a contract on local blockchain on Remix.
+
+Fourth, update your contract address in js file.
+
+Fifth, run  `npm start` in your file directory.
+
+### User
 
 
-## Use case
 
-- During a transaction, verification will be done automaticlly.
-- If any owner want to post information on the website, the related item should be verified first.
+**Here's an example of testing and using it:**
 
-| First Participant              | Second Participant            | Event                                                        | Real life situation                                      |
-| ------------------------------ | ----------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Manager                        | Store                         | Set up store information                                     | A new store opens                                        |
-| Manager                        | Store                         | Register new item for store                                  | An item is produced, and transported to a store for sale |
-| Store                          | Customer                      | Store sells an item to a customer. Several things could be automaticlly verified: 1.This store is a authorized store of this brand. 2. This item is authentic. | Customer goes to a store and buys an item.               |
-| Customer                       | -                             | Customer check his/her account to make sure item received    | Customer goes to a store and buys an item.               |
-| Customer as second hand seller | Customer as second hand buyer | Seller transfer ownership to buyer. Buyer check account to make sure item received. | Face to face second hand item transaction                |
-| Customer as second hand seller | Second hand shop              | Sell transfer ownership to a second hand shop (vintage shop). vintage shop check account to make sure item received. | Face to face second hand item transaction                |
-|                                |                               |                                                              |                                                          |
-|                                |                               |                                                              |                                                          |
-|                                |                               |                                                              |                                                          |
+First, we need three addresses: a manager, a retailer and a customer.
 
+1. Manager View(1st address)
 
+-  First, create a store, use 2nd address
+-  Second, create a item, use 2nd address
+-  Third, check identity and check product owner
 
+2. Store View(2nd address)
+	- Check my item --> the item manager just created
+	- Check item info --> the description manager just put in 
+	- Transfer this item  to 3rd account (in real life this mean a customer bought this product)
+	- (Ignore resale)
+3. Customer View(3nd address)
+	- Check item --> just bought
+	- Resale verification, could what if I use real code or fake code ->verification passed or failed
+	- Second hand selling: if I'm trying to sell a item that is not belonged to me -->transfer failed
 
-
-# 
