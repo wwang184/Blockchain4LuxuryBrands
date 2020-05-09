@@ -181,7 +181,7 @@ The final UI is like below:
 
 *"The digital identity is like a passport that assures the authenticity of both new and vintage goods and records information such as transfers of ownership or when the item is serviced. Depending on the brand, **the passport can be linked to the item through serial number, chip or QR code, accessible through an app**."*
 
-## [Postmortem and Next Steps](https://www.geekpoweredstudios.com/postmortem-checklist/)
+## Postmortem and Next Steps
 
 The whole project lasted for nearly four months, from zero at the very beginning to now. We started from proposing our blockchain design on current business issues, to identifying and designing our system function (write solidity code), then doing solution research while designing an developing front-end user interface (write html and css), and then setting up local blockchain network, and finally linking all the stuffs together to end up with a demo application. During this process, we received a lot instructions and help from two professors. Many thanks to Professor Chiang and Professor Chu.
 
