@@ -148,9 +148,9 @@ Our UI design includes several elements for better demonstration:
 
 The final UI is like below:
 
-![UI-Final](/Users/wanqiwang/Documents/GitHub/Blockchain4LuxuryBrands/UI-Final.png)
+![UI-Final-2](./UI-Final-2.png)
 
-![UI-Final-2](/Users/wanqiwang/Documents/GitHub/Blockchain4LuxuryBrands/UI-Final-2.png)
+![UI-Final](./UI-Final.png)
 
 ## Plan for Next Step
 
