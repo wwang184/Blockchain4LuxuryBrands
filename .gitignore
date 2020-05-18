@@ -22,3 +22,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+luxury-react/src/luxury.js
+luxury-react/node_modules/web3/dist/web3.js.map
+luxury-react/node_modules/oboe/test/json/twentyThousandRecords.json
+luxury-react/node_modules/aes-js/test/test-vectors.json

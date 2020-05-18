@@ -61,9 +61,7 @@ We talked to a lawyer working for Hermes and she told us that all her work is su
 | Preconditions:                                               | -     The store needs to be a  verified store.               |
 | Basic  Flow:  -    The factory sign for items to be registered into network.  -    The manager receives applications by factory.  -    The manager checks the production and logs in to the system,  put in the store’s address and code number of items, clicks the create  button.  -    A message will be sent to store notifying this transportation.  -    The store could check his current owned item by clicking check  my item button.   -    The store report physical item deliver information to  manager  -    The use case ends. |                                                              |
 
- 
-
-\2.   Item Sold from Store
+2. Item Sold from Store
 
 | Use  Case Name                                               | Item  Sold from Store                                        |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -149,6 +147,10 @@ Our UI design includes several elements for better demonstration:
 - Buttons: Buttons allow users to request information or submit a request.
 
 The final UI is like below:
+
+![UI-Final](/Users/wanqiwang/Documents/GitHub/Blockchain4LuxuryBrands/UI-Final.png)
+
+![UI-Final-2](/Users/wanqiwang/Documents/GitHub/Blockchain4LuxuryBrands/UI-Final-2.png)
 
 ## Plan for Next Step
 
